@@ -3,5 +3,8 @@
     <dimen name="main_horizontal_margin">30dp</dimen>
     <dimen name="diameter_image_university">30dp</dimen>
     <dimen name="text_size_student_id">13sp</dimen>
-
+    <dimen name="height_label">12dp</dimen>
+    <dimen name="height_data">15dp</dimen>
+    <dimen name="height_label_student_id">20dp</dimen>
+    <dimen name="margin_start_to_data">5dp</dimen>
 </resources>
