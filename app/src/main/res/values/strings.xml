@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">StudentIdCard</string>
+    <string name="id_number">0513980</string>
+    <string name="name_university">Белорусский национальный технический университет</string>
+    <string name="label_student_id">Студенческий билет №</string>
+    <string name="student_id_number">1140511818</string>
+    <string name="label_last_name">Фамилия</string>
+    <string name="last_name">Иванов</string>
+    <string name="label_first_name">Имя и отчетсво</string>
+    <string name="first_name">Александр Александрович</string>
+    <string name="label_faculty">Факультет</string>
+    <string name="faculty">ФИТР</string>
+    <string name="label_form_of_training">Форма обучения</string>
+    <string name="form_of_training">ДНЕВНАЯ</string>
+    <string name="label_date_of_issue">Дата выдачи билета</string>
+    <string name="date_of_issue">27.08.2018</string>
+    <string name="label_date_of_expiry">Действителен до</string>
+    <string name="date_of_expiry">30.06.2022</string>
+</resources>

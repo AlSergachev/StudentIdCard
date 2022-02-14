@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="id_number">
+        <item name="android:textSize">20sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">#FF0000</item>
+    </style>
+
+    <style name="name_university">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="label_student_id">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">@dimen/text_size_student_id</item>
+        <item name="android:textColor">#B675C0</item>
+    </style>
+
+    <style name="student_id_number">
+        <item name="android:textSize">@dimen/text_size_student_id</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="label_data">
+        <item name="android:textSize">8sp</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="data">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+</resources>
