@@ -20,6 +20,21 @@
         android:layout_gravity="center"
         tools:ignore="IncludeLayoutParam" />
 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/header"
+        android:layout_marginVertical="20dp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"/>
+
+
+    <com.example.studentidcard.custom.view.StudentIdCardView
+        android:id="@+id/custom_student_id_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
 
 
 

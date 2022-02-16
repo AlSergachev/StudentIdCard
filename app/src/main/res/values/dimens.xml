@@ -7,4 +7,6 @@
     <dimen name="height_data">15dp</dimen>
     <dimen name="height_label_student_id">20dp</dimen>
     <dimen name="margin_start_to_data">5dp</dimen>
+    <dimen name="margin_top_name_university">10dp</dimen>
+    <dimen name="height_name_university">15dp</dimen>
 </resources>

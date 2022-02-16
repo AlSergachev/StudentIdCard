@@ -7,10 +7,10 @@ class Student(
     val firstName: String,
     val faculty: String,
     val formOfTraining: String,
-    val startDate: String,
-    val endDate: String,
+    val dateOfIssue: String,
+    val dateOfExpiry: String,
     val idNumber: String,
     val studentIdNumber: String,
-    val image: Image,   //fixme
+    val imageProfile: Int,
     val university: University
 )
