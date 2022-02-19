@@ -36,7 +36,7 @@
                 android:id="@+id/name_university"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_name_university"
-                android:layout_marginTop="@dimen/margin_top_name_university"
+                android:layout_marginVertical="@dimen/margin_top_name_university"
                 android:lines="1"
                 android:autoSizePresetSizes="@array/auto_size_text_sizes"
                 android:autoSizeTextType="uniform"
@@ -47,8 +47,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="5dp">
+                android:layout_height="wrap_content">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="@dimen/diameter_image_university"
@@ -91,8 +90,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingVertical="10dp">
+                android:layout_height="match_parent">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="80dp"
