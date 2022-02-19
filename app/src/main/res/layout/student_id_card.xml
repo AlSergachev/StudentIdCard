@@ -7,7 +7,7 @@
     android:layout_width="340dp"
     android:layout_height="220dp"
     app:cardCornerRadius="20dp"
-    app:cardBackgroundColor="#D7FFD9">
+    app:cardBackgroundColor="@color/primary_color">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -38,12 +38,9 @@
                 android:layout_height="@dimen/height_name_university"
                 android:layout_marginVertical="@dimen/margin_top_name_university"
                 android:lines="1"
-                android:autoSizePresetSizes="@array/auto_size_text_sizes"
-                android:autoSizeTextType="uniform"
                 android:gravity="center_horizontal"
                 android:text="@string/name_university"
-                android:textAppearance="@style/name_university"
-                tools:targetApi="o" />
+                android:textAppearance="@style/name_university"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,7 +54,7 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/image_university"
-                        android:background="@color/gray"
+                        android:background="@color/image_background_color"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
                 </androidx.cardview.widget.CardView>
@@ -69,12 +66,9 @@
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_start_to_data"
-                    android:autoSizePresetSizes="@array/auto_size_text_sizes"
-                    android:autoSizeTextType="uniform"
                     android:text="@string/label_student_id"
                     android:textAppearance="@style/label_student_id"
-                    android:gravity="center"
-                    tools:targetApi="o" />
+                    android:gravity="center"/>
 
                 <TextView
                     android:id="@+id/student_id_number"
@@ -102,102 +96,79 @@
                         android:id="@+id/image_profile"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/gray" />
+                        android:background="@color/image_background_color" />
                 </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="15dp"
+                    android:gravity="center_vertical"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/height_label"
-                        android:autoSizePresetSizes="@array/auto_size_text_sizes"
-                        android:autoSizeTextType="uniform"
                         android:gravity="center_vertical"
                         android:text="@string/label_last_name"
-                        android:textAppearance="@style/label_data"
-                        tools:targetApi="o" />
+                        android:textAppearance="@style/label_data" />
 
                     <TextView
                         android:id="@+id/last_name"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/height_data"
                         android:layout_marginStart="@dimen/margin_start_to_data"
-                        android:autoSizePresetSizes="@array/auto_size_text_sizes"
-                        android:autoSizeTextType="uniform"
                         android:gravity="center_vertical"
                         android:text="@string/last_name"
-                        android:textAppearance="@style/data"
-                        tools:targetApi="o" />
+                        android:textAppearance="@style/data" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/height_label"
-                        android:autoSizePresetSizes="@array/auto_size_text_sizes"
-                        android:autoSizeTextType="uniform"
                         android:gravity="center_vertical"
                         android:text="@string/label_first_name"
-                        android:textAppearance="@style/label_data"
-                        tools:targetApi="o" />
+                        android:textAppearance="@style/label_data"/>
 
                     <TextView
                         android:id="@+id/first_name"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/height_data"
                         android:layout_marginStart="@dimen/margin_start_to_data"
-                        android:autoSizePresetSizes="@array/auto_size_text_sizes"
-                        android:autoSizeTextType="uniform"
                         android:gravity="center_vertical"
                         android:text="@string/first_name"
-                        android:textAppearance="@style/data"
-                        tools:targetApi="o" />
+                        android:textAppearance="@style/data"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/height_label"
-                        android:autoSizePresetSizes="@array/auto_size_text_sizes"
-                        android:autoSizeTextType="uniform"
                         android:gravity="center_vertical"
                         android:text="@string/label_faculty"
-                        android:textAppearance="@style/label_data"
-                        tools:targetApi="o" />
+                        android:textAppearance="@style/label_data"/>
 
                     <TextView
                         android:id="@+id/faculty"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/height_data"
                         android:layout_marginStart="@dimen/margin_start_to_data"
-                        android:autoSizePresetSizes="@array/auto_size_text_sizes"
-                        android:autoSizeTextType="uniform"
                         android:gravity="center_vertical"
                         android:text="@string/faculty"
-                        android:textAppearance="@style/data"
-                        tools:targetApi="o" />
+                        android:textAppearance="@style/data"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/height_label"
-                        android:autoSizePresetSizes="@array/auto_size_text_sizes"
-                        android:autoSizeTextType="uniform"
                         android:gravity="center_vertical"
                         android:text="@string/label_form_of_training"
-                        android:textAppearance="@style/label_data"
-                        tools:targetApi="o" />
+                        android:textAppearance="@style/label_data"/>
 
                     <TextView
                         android:id="@+id/form_of_training"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/height_data"
                         android:layout_marginStart="@dimen/margin_start_to_data"
-                        android:autoSizePresetSizes="@array/auto_size_text_sizes"
-                        android:autoSizeTextType="uniform"
                         android:gravity="center_vertical"
                         android:text="@string/form_of_training"
-                        android:textAppearance="@style/data"
-                        tools:targetApi="o" />
+                        android:textAppearance="@style/data"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -212,24 +183,18 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/height_label"
-                                android:autoSizePresetSizes="@array/auto_size_text_sizes"
-                                android:autoSizeTextType="uniform"
                                 android:gravity="center_vertical"
                                 android:text="@string/label_date_of_issue"
-                                android:textAppearance="@style/label_data"
-                                tools:targetApi="o" />
+                                android:textAppearance="@style/label_data"/>
 
                             <TextView
                                 android:id="@+id/date_of_issue"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/height_data"
-                                android:autoSizePresetSizes="@array/auto_size_text_sizes"
-                                android:autoSizeTextType="uniform"
                                 android:gravity="center_vertical"
                                 android:layout_marginStart="@dimen/margin_start_to_data"
                                 android:text="@string/date_of_issue"
-                                android:textAppearance="@style/data"
-                                tools:targetApi="o" />
+                                android:textAppearance="@style/data"/>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="0dp"
@@ -240,29 +205,22 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/height_label"
-                                android:autoSizePresetSizes="@array/auto_size_text_sizes"
-                                android:autoSizeTextType="uniform"
                                 android:gravity="center_vertical"
                                 android:text="@string/label_date_of_expiry"
-                                android:textAppearance="@style/label_data"
-                                tools:targetApi="o" />
+                                android:textAppearance="@style/label_data" />
 
                             <TextView
                                 android:id="@+id/date_of_expiry"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/height_data"
                                 android:layout_marginStart="@dimen/margin_start_to_data"
-                                android:autoSizePresetSizes="@array/auto_size_text_sizes"
-                                android:autoSizeTextType="uniform"
                                 android:gravity="center_vertical"
                                 android:text="@string/date_of_expiry"
-                                android:textAppearance="@style/data"
-                                tools:targetApi="o" />
+                                android:textAppearance="@style/data"/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
 
         <com.example.studentidcard.custom.view.VerticalTextView
