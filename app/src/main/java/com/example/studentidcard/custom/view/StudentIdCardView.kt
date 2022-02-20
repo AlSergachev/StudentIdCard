@@ -29,16 +29,19 @@ class StudentIdCardView @JvmOverloads constructor(
     @ColorInt private var dataTextColor: Int = 0
     @ColorInt private var labelTextColor: Int = 0
 
-//    @Px private var padLeft: Int = 0
-//    @Px private var padRight: Int = 0
-//    @Px private var padTop: Int = 0
-//    @Px private var padBottom: Int = 0
-//    @Px private var padInner: Int = 0
+    @Px private var mainHorizontalPadding: Int = 0
+    @Px private var innerSmallPadding: Int = 0
+    @Px private var innerLargePadding: Int = 0
+    @Px private var innerVerticalPadding: Int = 0
+
+    @Px private var imageUniversitySize: Int = 0
+    @Px private var widthImageProfile: Int = 0
+    @Px private var heightImageProfile: Int = 0
 
     @Px private var textSizeIdNumber: Int = 0
     @Px private var textSizeStudentId: Int = 0
     @Px private var textSizeNameUniversity: Int = 0
-    @Px private var textSizeLabelStudent_id: Int = 0
+    @Px private var textSizeLabelStudentId: Int = 0
     @Px private var textSizeLabelData: Int = 0
     @Px private var textSizeData: Int = 0
 
@@ -79,12 +82,23 @@ class StudentIdCardView @JvmOverloads constructor(
         textSizeIdNumber = dpToPx(18)
         textSizeStudentId = dpToPx(13)
         textSizeNameUniversity = dpToPx(10)
-        textSizeLabelStudent_id = dpToPx(12)
+        textSizeLabelStudentId = dpToPx(12)
         textSizeLabelData = dpToPx(10)
         textSizeData = dpToPx(12)
 
+        //Prepare paddings
+        mainHorizontalPadding = dpToPx(30)
+        innerSmallPadding = dpToPx(5)
+        innerLargePadding = dpToPx(15)
+        innerVerticalPadding = dpToPx(10)
 
-        nameUniversity = TextView(context);
+        //Prepare image sizes
+        imageUniversitySize = dpToPx(30)
+        widthImageProfile = dpToPx(80)
+        heightImageProfile = dpToPx(110)
+
+
+        nameUniversity = TextView(context)
         nameUniversity.textSize = textSizeNameUniversity.toFloat()
         nameUniversity.setTextColor(labelTextColor)
         addView(nameUniversity)
@@ -103,72 +117,72 @@ class StudentIdCardView @JvmOverloads constructor(
         addView(idNumber)
 
         studentIdNumberLabel = TextView(context)
-        studentIdNumberLabel.setTextSize(textSizeLabelData.toFloat())
+        studentIdNumberLabel.textSize = textSizeLabelData.toFloat()
         studentIdNumberLabel.setTextColor(labelTextColor)
         addView(studentIdNumberLabel)
 
         studentIdNumber = TextView(context)
-        studentIdNumber.setTextSize(textSizeStudentId.toFloat())
+        studentIdNumber.textSize = textSizeStudentId.toFloat()
         studentIdNumber.setTextColor(dataTextColor)
         addView(studentIdNumber)
 
         lastNameLabel = TextView(context)
-        lastNameLabel.setTextSize(textSizeLabelData.toFloat())
+        lastNameLabel.textSize = textSizeLabelData.toFloat()
         lastNameLabel.setTextColor(labelTextColor)
         addView(lastNameLabel)
 
         lastName = TextView(context)
-        lastName.setTextSize(textSizeData.toFloat())
+        lastName.textSize = textSizeData.toFloat()
         lastName.setTextColor(dataTextColor)
         addView(lastName)
 
         firstNameLabel = TextView(context)
-        firstNameLabel.setTextSize(textSizeLabelData.toFloat())
+        firstNameLabel.textSize = textSizeLabelData.toFloat()
         firstNameLabel.setTextColor(labelTextColor)
         addView(firstNameLabel)
 
         firstName = TextView(context)
-        firstName.setTextSize(textSizeData.toFloat())
+        firstName.textSize = textSizeData.toFloat()
         firstName.setTextColor(dataTextColor)
         addView(firstName)
 
         facultyLabel = TextView(context)
-        facultyLabel.setTextSize(textSizeLabelData.toFloat())
+        facultyLabel.textSize = textSizeLabelData.toFloat()
         facultyLabel.setTextColor(labelTextColor)
         addView(facultyLabel)
 
         faculty = TextView(context)
-        faculty.setTextSize(textSizeData.toFloat())
+        faculty.textSize = textSizeData.toFloat()
         faculty.setTextColor(dataTextColor)
         addView(faculty)
 
         formOfTrainingLabel = TextView(context)
-        formOfTrainingLabel.setTextSize(textSizeLabelData.toFloat())
+        formOfTrainingLabel.textSize = textSizeLabelData.toFloat()
         formOfTrainingLabel.setTextColor(labelTextColor)
         addView(formOfTrainingLabel)
 
         formOfTraining = TextView(context)
-        formOfTraining.setTextSize(textSizeData.toFloat())
+        formOfTraining.textSize = textSizeData.toFloat()
         formOfTraining.setTextColor(dataTextColor)
         addView(formOfTraining)
 
         dateOfIssueLabel = TextView(context)
-        dateOfIssueLabel.setTextSize(textSizeLabelData.toFloat())
+        dateOfIssueLabel.textSize = textSizeLabelData.toFloat()
         dateOfIssueLabel.setTextColor(labelTextColor)
         addView(dateOfIssueLabel)
 
         dateOfIssue = TextView(context)
-        dateOfIssue.setTextSize(textSizeData.toFloat())
+        dateOfIssue.textSize = textSizeData.toFloat()
         dateOfIssue.setTextColor(dataTextColor)
         addView(dateOfIssue)
 
         dateOfExpiryLabel = TextView(context)
-        dateOfExpiryLabel.setTextSize(textSizeLabelData.toFloat())
+        dateOfExpiryLabel.textSize = textSizeLabelData.toFloat()
         dateOfExpiryLabel.setTextColor(labelTextColor)
         addView(dateOfExpiryLabel)
 
         dateOfExpiry = TextView(context)
-        dateOfExpiry.setTextSize(textSizeData.toFloat())
+        dateOfExpiry.textSize = textSizeData.toFloat()
         dateOfExpiry.setTextColor(dataTextColor)
         addView(dateOfExpiry)
 
@@ -184,6 +198,67 @@ class StudentIdCardView @JvmOverloads constructor(
 //        dateOfIssue = findViewById(R.id.date_of_issue)
 //        dateOfExpiry = findViewById(R.id.date_of_expiry)
     }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val widthView = dpToPx(340)
+        val heightView = dpToPx(220)
+
+        val widthTextNameUniversity: Int = widthView - 2 * mainHorizontalPadding
+        val widthTextDataLabel: Int = widthTextNameUniversity - widthImageProfile - innerLargePadding
+        val widthTextData: Int = widthTextDataLabel - innerSmallPadding
+        val widthTextDateLabel: Int = (widthTextDataLabel + innerSmallPadding) / 2
+        val widthTextDate: Int = widthTextDateLabel - innerSmallPadding
+        val widthTextStudentIdNumber: Int =
+            (widthTextNameUniversity - imageUniversitySize - innerSmallPadding) / 3
+        val widthTextStudentIdNumberLabel: Int =
+            widthTextNameUniversity - imageUniversitySize - innerSmallPadding - widthTextStudentIdNumber
+
+        nameUniversity.maxWidth = widthTextNameUniversity
+        imageUniversity.maxWidth = imageUniversitySize
+        studentIdNumberLabel.maxWidth = widthTextStudentIdNumberLabel
+        studentIdNumber.maxWidth = widthTextStudentIdNumber
+        imageProfile.maxWidth = widthImageProfile
+        lastNameLabel.maxWidth = widthTextDataLabel
+        firstNameLabel.maxWidth = widthTextDataLabel
+        facultyLabel.maxWidth = widthTextDataLabel
+        formOfTrainingLabel.maxWidth = widthTextDataLabel
+        lastName.maxWidth = widthTextData
+        firstName.maxWidth = widthTextData
+        faculty.maxWidth = widthTextData
+        formOfTraining.maxWidth = widthTextData
+        dateOfIssueLabel.maxWidth = widthTextDateLabel
+        dateOfIssue.maxWidth = widthTextDate
+        dateOfExpiryLabel.maxWidth = widthTextDateLabel
+        dateOfExpiry.maxWidth = widthTextDate
+        idNumber.maxWidth = mainHorizontalPadding   //fixme: idNumber.maxWidth = heightView
+
+        measureChild(nameUniversity, widthTextNameUniversity, heightView)
+        measureChild(imageUniversity, imageUniversitySize, imageUniversitySize)
+        measureChild(studentIdNumberLabel, widthTextStudentIdNumberLabel, imageUniversitySize)
+        measureChild(studentIdNumber, widthTextStudentIdNumber, imageUniversitySize)
+        measureChild(imageProfile, widthImageProfile, heightImageProfile)
+        measureChild(lastNameLabel, widthTextDataLabel, heightView)
+        measureChild(firstNameLabel, widthTextDataLabel, heightView)
+        measureChild(facultyLabel, widthTextDataLabel, heightView)
+        measureChild(formOfTrainingLabel, widthTextDataLabel, heightView)
+        measureChild(lastName, widthTextData, heightView)
+        measureChild(firstName, widthTextData, heightView)
+        measureChild(faculty, widthTextData, heightView)
+        measureChild(formOfTraining, widthTextData, heightView)
+        measureChild(dateOfIssueLabel, widthTextDateLabel, heightView)
+        measureChild(dateOfIssue, widthTextDate, heightView)
+        measureChild(dateOfExpiryLabel, widthTextDateLabel, heightView)
+        measureChild(dateOfExpiry, widthTextDate, heightView)
+        measureChild(idNumber, mainHorizontalPadding, heightView) //fixme:measureChild(idNumber, heightView, mainHorizontalPadding)
+
+        setMeasuredDimension(widthView, heightView)
+    }
+
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+        //todo
+    }
+
 
     @Px
     private fun dpToPx(@Dimension(unit = Dimension.DP)dp: Int): Int {
