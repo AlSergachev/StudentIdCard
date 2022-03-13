@@ -5,6 +5,7 @@ import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.util.TypedValue
@@ -18,6 +19,7 @@ import androidx.annotation.Px
 import androidx.core.content.ContextCompat
 import com.example.studentidcard.R
 import com.example.studentidnumber.ui.custom.model.Student
+import java.lang.reflect.Type
 
 
 class StudentIdCardView @JvmOverloads constructor(
@@ -66,22 +68,25 @@ class StudentIdCardView @JvmOverloads constructor(
     private var heightImageProfile: Int = 0
 
     @Px
-    private var textSizeIdNumber: Int = 0
+    private var heightTextDataLabel: Int = 0
 
     @Px
-    private var textSizeStudentId: Int = 0
+    private var textSizeIdNumber: Float = 0.0F
 
     @Px
-    private var textSizeNameUniversity: Int = 0
+    private var textSizeStudentId: Float = 0.0F
 
     @Px
-    private var textSizeLabelStudentId: Int = 0
+    private var textSizeNameUniversity: Float = 0.0F
 
     @Px
-    private var textSizeLabelData: Int = 0
+    private var textSizeLabelStudentId: Float = 0.0F
 
     @Px
-    private var textSizeData: Int = 0
+    private var textSizeLabelData: Float = 0.0F
+
+    @Px
+    private var textSizeData: Float = 0.0F
 
     @Px
     private var cornerRadius: Int = 0
@@ -128,12 +133,12 @@ class StudentIdCardView @JvmOverloads constructor(
         labelTextColor = ContextCompat.getColor(context, R.color.label_text_color)
 
         //Prepare text size
-        textSizeIdNumber = 18       //dpToPx(18)
-        textSizeStudentId = 13       //dpToPx(13)
-        textSizeNameUniversity = 13       //dpToPx(10)
-        textSizeLabelStudentId = 16       //dpToPx(12)
-        textSizeLabelData = 10       //dpToPx(10)
-        textSizeData = 12       //dpToPx(12)
+        textSizeIdNumber = setDp(16)
+        textSizeStudentId = setDp(13)
+        textSizeNameUniversity = setDp(11)
+        textSizeLabelStudentId = setDp(14)
+        textSizeLabelData = setDp(9)
+        textSizeData = setDp(12)
 
         //Prepare paddings
         mainHorizontalPadding = dpToPx(30)
@@ -146,10 +151,11 @@ class StudentIdCardView @JvmOverloads constructor(
         imageUniversitySize = dpToPx(30)
         widthImageProfile = dpToPx(80)
         heightImageProfile = dpToPx(110)
+        heightTextDataLabel = dpToPx(11)
 
 
         nameUniversity = TextView(context)
-        nameUniversity.textSize = textSizeNameUniversity.toFloat()
+        nameUniversity.textSize = textSizeNameUniversity
         nameUniversity.setTextColor(labelTextColor)
         nameUniversity.gravity = Gravity.CENTER_HORIZONTAL
         addView(nameUniversity)
@@ -158,7 +164,7 @@ class StudentIdCardView @JvmOverloads constructor(
 //        imageUniversity.setImageResource(R.drawable.image_university)
 //        addView(imageUniversity)
         imageUniversity = TextView(context)
-        imageUniversity.textSize = textSizeIdNumber.toFloat()
+        imageUniversity.textSize = textSizeIdNumber
         imageUniversity.setTextColor(idTextColor)
         imageUniversity.gravity = Gravity.CENTER
         addView(imageUniversity)
@@ -171,88 +177,103 @@ class StudentIdCardView @JvmOverloads constructor(
 //        }
 //        addView(imageProfile)
         imageProfile = TextView(context)
-        imageProfile.textSize = textSizeIdNumber.toFloat()
+        imageProfile.textSize = textSizeIdNumber
         imageProfile.setTextColor(idTextColor)
         imageProfile.gravity = Gravity.CENTER
         addView(imageProfile)
 
         idNumber = TextView(context)
 //        idNumber = VerticalTextView(context)
-        idNumber.textSize = textSizeIdNumber.toFloat()
+        idNumber.textSize = textSizeIdNumber
         idNumber.setTextColor(idTextColor)
         idNumber.gravity = Gravity.CENTER
+        idNumber.setTypeface(null, Typeface.BOLD)
         addView(idNumber)
 
         studentIdNumberLabel = TextView(context)
-        studentIdNumberLabel.textSize = textSizeLabelStudentId.toFloat()
+        studentIdNumberLabel.textSize = textSizeLabelStudentId
         studentIdNumberLabel.setTextColor(headerTextColor)
+        studentIdNumberLabel.setTypeface(null, Typeface.BOLD)
         studentIdNumberLabel.gravity = Gravity.CENTER
         addView(studentIdNumberLabel)
 
         studentIdNumber = TextView(context)
-        studentIdNumber.textSize = textSizeStudentId.toFloat()
+        studentIdNumber.textSize = textSizeStudentId
         studentIdNumber.setTextColor(dataTextColor)
+        studentIdNumber.setTypeface(null, Typeface.BOLD)
         studentIdNumber.gravity = Gravity.CENTER
         addView(studentIdNumber)
 
         lastNameLabel = TextView(context)
-        lastNameLabel.textSize = textSizeLabelData.toFloat()
+        lastNameLabel.textSize = textSizeLabelData
         lastNameLabel.setTextColor(labelTextColor)
+        lastNameLabel.gravity = Gravity.TOP
         addView(lastNameLabel)
 
         lastName = TextView(context)
-        lastName.textSize = textSizeData.toFloat()
+        lastName.textSize = textSizeData
         lastName.setTextColor(dataTextColor)
+        lastName.setTypeface(null, Typeface.BOLD)
         addView(lastName)
 
         firstNameLabel = TextView(context)
-        firstNameLabel.textSize = textSizeLabelData.toFloat()
+        firstNameLabel.textSize = textSizeLabelData
         firstNameLabel.setTextColor(labelTextColor)
+        firstNameLabel.gravity = Gravity.TOP
         addView(firstNameLabel)
 
         firstName = TextView(context)
-        firstName.textSize = textSizeData.toFloat()
+        firstName.textSize = textSizeData
         firstName.setTextColor(dataTextColor)
+        firstName.setTypeface(null, Typeface.BOLD)
         addView(firstName)
 
         facultyLabel = TextView(context)
-        facultyLabel.textSize = textSizeLabelData.toFloat()
+        facultyLabel.textSize = textSizeLabelData
         facultyLabel.setTextColor(labelTextColor)
+        facultyLabel.gravity = Gravity.TOP
         addView(facultyLabel)
 
         faculty = TextView(context)
-        faculty.textSize = textSizeData.toFloat()
+        faculty.textSize = textSizeData
         faculty.setTextColor(dataTextColor)
+        faculty.setTypeface(null, Typeface.BOLD)
         addView(faculty)
 
         formOfTrainingLabel = TextView(context)
-        formOfTrainingLabel.textSize = textSizeLabelData.toFloat()
+        formOfTrainingLabel.textSize = textSizeLabelData
         formOfTrainingLabel.setTextColor(labelTextColor)
+        formOfTrainingLabel.gravity = Gravity.TOP
         addView(formOfTrainingLabel)
 
         formOfTraining = TextView(context)
-        formOfTraining.textSize = textSizeData.toFloat()
+        formOfTraining.textSize = textSizeData
         formOfTraining.setTextColor(dataTextColor)
+        formOfTraining.setTypeface(null, Typeface.BOLD)
         addView(formOfTraining)
 
         dateOfIssueLabel = TextView(context)
-        dateOfIssueLabel.textSize = textSizeLabelData.toFloat()
+        dateOfIssueLabel.textSize = textSizeLabelData
         dateOfIssueLabel.setTextColor(labelTextColor)
+        dateOfIssueLabel.gravity = Gravity.TOP
         addView(dateOfIssueLabel)
 
         dateOfIssue = TextView(context)
-        dateOfIssue.textSize = textSizeData.toFloat()
+        dateOfIssue.textSize = textSizeData
         dateOfIssue.setTextColor(dataTextColor)
+        dateOfIssue.setTypeface(null, Typeface.BOLD)
         addView(dateOfIssue)
 
         dateOfExpiryLabel = TextView(context)
-        dateOfExpiryLabel.textSize = textSizeLabelData.toFloat()
+        dateOfExpiryLabel.textSize = textSizeLabelData
         dateOfExpiryLabel.setTextColor(labelTextColor)
+        dateOfExpiryLabel.gravity = Gravity.TOP
         addView(dateOfExpiryLabel)
 
         dateOfExpiry = TextView(context)
-        dateOfExpiry.textSize = textSizeData.toFloat()
+        dateOfExpiry.textSize = textSizeData
         dateOfExpiry.setTextColor(dataTextColor)
+        dateOfExpiry.setTypeface(null, Typeface.BOLD)
         addView(dateOfExpiry)
 
         paint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -314,23 +335,37 @@ class StudentIdCardView @JvmOverloads constructor(
         imageProfile.minimumHeight = heightImageProfile
 
         lastNameLabel.maxWidth = widthTextDataLabel
+        lastNameLabel.maxHeight = heightTextDataLabel
+        lastNameLabel.minimumHeight = heightTextDataLabel
         firstNameLabel.maxWidth = widthTextDataLabel
+        firstNameLabel.maxHeight = heightTextDataLabel
+        firstNameLabel.minimumHeight = heightTextDataLabel
         facultyLabel.maxWidth = widthTextDataLabel
+        facultyLabel.maxHeight = heightTextDataLabel
+        facultyLabel.minimumHeight = heightTextDataLabel
         formOfTrainingLabel.maxWidth = widthTextDataLabel
+        formOfTrainingLabel.maxHeight = heightTextDataLabel
+        formOfTrainingLabel.minimumHeight = heightTextDataLabel
         lastName.maxWidth = widthTextData
         firstName.maxWidth = widthTextData
         faculty.maxWidth = widthTextData
         formOfTraining.maxWidth = widthTextData
         dateOfIssueLabel.maxWidth = widthTextDateLabel
+        dateOfIssueLabel.maxHeight = heightTextDataLabel
+        dateOfIssueLabel.minimumHeight = heightTextDataLabel
         dateOfIssue.maxWidth = widthTextDate
         dateOfExpiryLabel.maxWidth = widthTextDateLabel
+        dateOfExpiryLabel.maxHeight = heightTextDataLabel
+        dateOfExpiryLabel.minimumHeight = heightTextDataLabel
         dateOfExpiry.maxWidth = widthTextDate
 
         idNumber.maxHeight = heightMeasureSpec
         idNumber.minimumHeight = heightMeasureSpec
 //        idNumber.maxWidth = mainHorizontalPadding   //fixme: idNumber.maxWidth = heightView
-        idNumber.maxWidth = mainHorizontalPadding   //fixme: idNumber.maxWidth = mainHorizontalPadding
-        idNumber.minimumWidth = mainHorizontalPadding   //fixme: idNumber.minimumWidth = mainHorizontalPadding
+        idNumber.maxWidth =
+            mainHorizontalPadding   //fixme: idNumber.maxWidth = mainHorizontalPadding
+        idNumber.minimumWidth =
+            mainHorizontalPadding   //fixme: idNumber.minimumWidth = mainHorizontalPadding
 
         measureChild(nameUniversity, widthTextNameUniversity, innerVerticalPadding)
         measureChild(imageUniversity, imageUniversitySize, imageUniversitySize)
@@ -361,7 +396,6 @@ class StudentIdCardView @JvmOverloads constructor(
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
 
-//        val padding = 72
         val padding = paddingLeft
         val sRight = right - padding
         val sLeft = left - padding
@@ -371,7 +405,8 @@ class StudentIdCardView @JvmOverloads constructor(
         val rightBorder = sRight - mainHorizontalPadding
         val leftBorderDataLabel = leftBorder + widthImageProfile + innerLargePadding
         val leftBorderData = leftBorderDataLabel + innerSmallPadding
-        val rightBorderDateOfIssue: Int = leftBorderDataLabel + (rightBorder - leftBorderDataLabel) / 2
+        val rightBorderDateOfIssue: Int =
+            leftBorderDataLabel + (rightBorder - leftBorderDataLabel) / 2
 
         var heightUsed = innerVerticalPadding
         var widthUsed = leftBorder
@@ -510,7 +545,8 @@ class StudentIdCardView @JvmOverloads constructor(
             sRight - mainHorizontalPadding,
             0,
             sRight,
-            bottom)
+            bottom
+        )
     }
 
 
@@ -519,7 +555,7 @@ class StudentIdCardView @JvmOverloads constructor(
         val height: Float = canvas.height.toFloat()
         paint.color = primaryColor
         rect.set(0.0F, 0.0F, width, height)
-        canvas.drawRoundRect(rect, cornerRadius.toFloat(), cornerRadius.toFloat(),paint)
+        canvas.drawRoundRect(rect, cornerRadius.toFloat(), cornerRadius.toFloat(), paint)
         super.dispatchDraw(canvas)
     }
 
@@ -531,13 +567,11 @@ class StudentIdCardView @JvmOverloads constructor(
             .toInt()
     }
 
-//    private fun dpToPx(dp: Int): Int {
-//        val displayMetrics = context.resources.displayMetrics
-//        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
-//    }
-
-//    private fun dpToPx(dp: Int) =
-//        (dp * context.resources.displayMetrics.density).toInt()
+    private fun setDp(value: Int): Float {
+        val resources: Resources = resources
+        val displayMetrics: DisplayMetrics = resources.displayMetrics
+        return (value * displayMetrics.density) / (displayMetrics.scaledDensity)
+    }
 
     fun bindStudentIdCard(student: Student) {
         nameUniversity.text = student.university.name
@@ -557,7 +591,7 @@ class StudentIdCardView @JvmOverloads constructor(
         faculty.text = student.faculty
         formOfTrainingLabel.text = "Форма обучения"
         formOfTraining.text = student.formOfTraining
-        dateOfIssueLabel.text = "Дата выдачи билета"
+        dateOfIssueLabel.text = "Дата выдачи"
         dateOfIssue.text = student.dateOfIssue
         dateOfExpiryLabel.text = "Действителен до"
         dateOfExpiry.text = student.dateOfExpiry
