@@ -2,14 +2,15 @@ package com.example.studentidcard.custom.view
 
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.RectF
-import android.graphics.Typeface
+import android.graphics.*
+import android.os.Build
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,7 +20,6 @@ import androidx.annotation.Px
 import androidx.core.content.ContextCompat
 import com.example.studentidcard.R
 import com.example.studentidnumber.ui.custom.model.Student
-import java.lang.reflect.Type
 
 
 class StudentIdCardView @JvmOverloads constructor(
@@ -92,13 +92,9 @@ class StudentIdCardView @JvmOverloads constructor(
     private var cornerRadius: Int = 0
 
     private val nameUniversity: TextView
-
-    //    private val imageUniversity: ImageView    fixme
-    private val imageUniversity: TextView
-
-    //    private val imageProfile: ImageView   fixme
-    private val imageProfile: TextView
-    private val idNumber: TextView
+    private val imageUniversity: ImageView
+    private val imageProfile: ImageView
+    private val idNumber: VerticalTextView
     private val studentIdNumber: TextView
     private val studentIdNumberLabel: TextView
     private val lastName: TextView
@@ -117,6 +113,10 @@ class StudentIdCardView @JvmOverloads constructor(
     private var paint: Paint
     private var rect: RectF
 
+    private lateinit var imageUniversityBitmap: Bitmap
+    private lateinit var imageProfileBitmap: Bitmap
+
+
 
     init {
 //        clipChildren = false
@@ -133,10 +133,10 @@ class StudentIdCardView @JvmOverloads constructor(
         labelTextColor = ContextCompat.getColor(context, R.color.label_text_color)
 
         //Prepare text size
-        textSizeIdNumber = setDp(16)
+        textSizeIdNumber = setDp(18)
         textSizeStudentId = setDp(13)
         textSizeNameUniversity = setDp(11)
-        textSizeLabelStudentId = setDp(14)
+        textSizeLabelStudentId = setDp(13)
         textSizeLabelData = setDp(9)
         textSizeData = setDp(12)
 
@@ -160,34 +160,33 @@ class StudentIdCardView @JvmOverloads constructor(
         nameUniversity.gravity = Gravity.CENTER_HORIZONTAL
         addView(nameUniversity)
 
-//        imageUniversity = ImageView(context)
-//        imageUniversity.setImageResource(R.drawable.image_university)
-//        addView(imageUniversity)
-        imageUniversity = TextView(context)
-        imageUniversity.textSize = textSizeIdNumber
-        imageUniversity.setTextColor(idTextColor)
-        imageUniversity.gravity = Gravity.CENTER
+        imageUniversity = ImageView(context)
+        // todo: Установить заглушку в виде картинки с серым заполнением
+        imageUniversity.addViewObserver {
+            imageUniversityBitmap = resizeImage(
+                BitmapFactory.decodeResource(resources, R.drawable.image_university),
+                imageUniversitySize, imageUniversitySize)
+            imageUniversity.setImageBitmap(imageUniversityBitmap)
+        }
         addView(imageUniversity)
 
-        // fixme
-//        imageProfile = ImageView(context)
-//        imageProfile.setImageResource(R.drawable.image_profile)
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            imageProfile.foregroundGravity = Gravity.CENTER
-//        }
-//        addView(imageProfile)
-        imageProfile = TextView(context)
-        imageProfile.textSize = textSizeIdNumber
-        imageProfile.setTextColor(idTextColor)
-        imageProfile.gravity = Gravity.CENTER
+        imageProfile = ImageView(context)
+        // todo: Установить заглушку в виде картинки с серым заполнением
+        imageProfile.addViewObserver {
+            imageProfileBitmap = resizeImage(
+                BitmapFactory.decodeResource(resources, R.drawable.image_profile),
+                widthImageProfile, heightImageProfile)
+            imageProfile.setImageBitmap(imageProfileBitmap)
+        }
         addView(imageProfile)
 
-        idNumber = TextView(context)
-//        idNumber = VerticalTextView(context)
+        idNumber = VerticalTextView(context)
         idNumber.textSize = textSizeIdNumber
         idNumber.setTextColor(idTextColor)
         idNumber.gravity = Gravity.CENTER
-        idNumber.setTypeface(null, Typeface.BOLD)
+        idNumber.setDirection(VerticalTextView.ORIENTATION_DOWN_TO_UP)
+        idNumber.fontFeatureSettings = "tnum, onum"
+        idNumber.letterSpacing = 0.15F
         addView(idNumber)
 
         studentIdNumberLabel = TextView(context)
@@ -195,6 +194,7 @@ class StudentIdCardView @JvmOverloads constructor(
         studentIdNumberLabel.setTextColor(headerTextColor)
         studentIdNumberLabel.setTypeface(null, Typeface.BOLD)
         studentIdNumberLabel.gravity = Gravity.CENTER
+        studentIdNumberLabel.isAllCaps = true
         addView(studentIdNumberLabel)
 
         studentIdNumber = TextView(context)
@@ -279,26 +279,12 @@ class StudentIdCardView @JvmOverloads constructor(
         paint = Paint(Paint.ANTI_ALIAS_FLAG)
         rect = RectF()
 
-//        nameUniversity = findViewById(R.id.name_university)
-//        imageUniversity = findViewById(R.id.image_university) //fixme: maybe AppCompatImageView
-//        imageProfile = findViewById(R.id.image_profile) //fixme: maybe AppCompatImageView
-//        idNumber = findViewById(R.id.id_number)
-//        studentIdNumber = findViewById(R.id.student_id_number)
-//        lastName = findViewById(R.id.last_name)
-//        firstName = findViewById(R.id.first_name)
-//        faculty = findViewById(R.id.faculty)
-//        formOfTraining = findViewById(R.id.form_of_training)
-//        dateOfIssue = findViewById(R.id.date_of_issue)
-//        dateOfExpiry = findViewById(R.id.date_of_expiry)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-//        val widthView = dpToPx(340)
-//        val heightView = dpToPx(220)
+
         val widthView: Int = dpToPx(340)
         val heightView: Int = dpToPx(220)
-//        widthView = getDefaultSize(suggestedMinimumWidth, widthMeasureSpec)
-//        heightView = getDefaultSize(suggestedMinimumHeight, heightMeasureSpec)
 
         val widthTextNameUniversity: Int = widthView - 2 * mainHorizontalPadding
         val widthTextDataLabel: Int =
@@ -314,11 +300,6 @@ class StudentIdCardView @JvmOverloads constructor(
         nameUniversity.maxWidth = widthTextNameUniversity
         nameUniversity.minimumWidth = widthTextNameUniversity
 
-        imageUniversity.minimumHeight = imageUniversitySize
-        imageUniversity.minimumWidth = imageUniversitySize
-        imageUniversity.maxWidth = imageUniversitySize
-        imageUniversity.maxHeight = imageUniversitySize
-
         studentIdNumberLabel.maxWidth = widthTextStudentIdNumberLabel
         studentIdNumberLabel.maxHeight = imageUniversitySize
         studentIdNumberLabel.minimumWidth = widthTextStudentIdNumberLabel
@@ -328,11 +309,6 @@ class StudentIdCardView @JvmOverloads constructor(
         studentIdNumber.minimumWidth = widthTextStudentIdNumber
         studentIdNumber.maxHeight = imageUniversitySize
         studentIdNumber.minimumHeight = imageUniversitySize
-
-        imageProfile.maxWidth = widthImageProfile
-        imageProfile.maxHeight = heightImageProfile
-        imageProfile.minimumWidth = widthImageProfile
-        imageProfile.minimumHeight = heightImageProfile
 
         lastNameLabel.maxWidth = widthTextDataLabel
         lastNameLabel.maxHeight = heightTextDataLabel
@@ -361,11 +337,8 @@ class StudentIdCardView @JvmOverloads constructor(
 
         idNumber.maxHeight = heightMeasureSpec
         idNumber.minimumHeight = heightMeasureSpec
-//        idNumber.maxWidth = mainHorizontalPadding   //fixme: idNumber.maxWidth = heightView
-        idNumber.maxWidth =
-            mainHorizontalPadding   //fixme: idNumber.maxWidth = mainHorizontalPadding
-        idNumber.minimumWidth =
-            mainHorizontalPadding   //fixme: idNumber.minimumWidth = mainHorizontalPadding
+        idNumber.maxWidth = heightMeasureSpec
+        idNumber.minimumWidth = mainHorizontalPadding
 
         measureChild(nameUniversity, widthTextNameUniversity, innerVerticalPadding)
         measureChild(imageUniversity, imageUniversitySize, imageUniversitySize)
@@ -384,14 +357,9 @@ class StudentIdCardView @JvmOverloads constructor(
         measureChild(dateOfIssue, widthTextDate, innerVerticalPadding)
         measureChild(dateOfExpiryLabel, widthTextDateLabel, innerVerticalPadding)
         measureChild(dateOfExpiry, widthTextDate, innerVerticalPadding)
-        measureChild(
-            idNumber,
-            mainHorizontalPadding,
-            heightView
-        ) //fixme:measureChild(idNumber, heightView, mainHorizontalPadding)
+        measureChild(idNumber, heightView, mainHorizontalPadding)
 
-        setMeasuredDimension(widthMeasureSpec, heightMeasureSpec)
-//        setMeasuredDimension(widthView, heightView)
+        setMeasuredDimension(widthView, heightView)
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -559,6 +527,24 @@ class StudentIdCardView @JvmOverloads constructor(
         super.dispatchDraw(canvas)
     }
 
+    private fun resizeImage(image: Bitmap, resWidth: Int, resHeight: Int): Bitmap{
+        val matrix = Matrix()
+        val src = RectF(0.0F, 0.0F, image.width.toFloat(), image.height.toFloat())
+        val dst = RectF(0.0F, 0.0F, resWidth.toFloat(), resHeight.toFloat())
+        matrix.setRectToRect(src, dst, Matrix.ScaleToFit.CENTER)
+        return Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)
+    }
+
+    private fun View.addViewObserver(function: () -> Unit) {
+        val view = this
+        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                view.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                function.invoke()
+            }
+        })
+    }
+
 
     private fun dpToPx(@Dimension(unit = Dimension.DP) dp: Int): Int {
         val resources: Resources = resources
@@ -575,10 +561,10 @@ class StudentIdCardView @JvmOverloads constructor(
 
     fun bindStudentIdCard(student: Student) {
         nameUniversity.text = student.university.name
-//        imageUniversity.setImageResource(student.university.image)
-        imageUniversity.text = "IU"
-//        imageProfile.setImageResource(student.imageProfile)
-        imageProfile.text = "ImPr"
+        imageUniversity.setImageResource(student.university.image)
+//        imageUniversity.text = "IU"
+        imageProfile.setImageResource(student.imageProfile)
+//        imageProfile.text = "ImPr"
         studentIdNumberLabel.text = "Студенческий билет №"
 //        idNumber.text = "10"
         idNumber.text = student.idNumber
@@ -596,6 +582,7 @@ class StudentIdCardView @JvmOverloads constructor(
         dateOfExpiryLabel.text = "Действителен до"
         dateOfExpiry.text = student.dateOfExpiry
     }
+
 
 
 }

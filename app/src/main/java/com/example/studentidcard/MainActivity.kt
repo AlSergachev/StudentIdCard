@@ -37,8 +37,8 @@ class MainActivity : AppCompatActivity() {
         val xmlStudentIdCard: View = findViewById(R.id.xml_student_id_card)
 
         val nameUniversity: TextView = xmlStudentIdCard.findViewById(R.id.name_university)
-        val imageUniversity: ImageView = xmlStudentIdCard.findViewById(R.id.image_university) //fixme: maybe AppCompatImageView
-        val imageProfile: ImageView = xmlStudentIdCard.findViewById(R.id.image_profile) //fixme: maybe AppCompatImageView
+        val imageUniversity: ImageView = xmlStudentIdCard.findViewById(R.id.image_university)
+        val imageProfile: ImageView = xmlStudentIdCard.findViewById(R.id.image_profile)
         val idNumber: TextView = xmlStudentIdCard.findViewById(R.id.id_number)
         val studentIdNumber: TextView = xmlStudentIdCard.findViewById(R.id.student_id_number)
         val lastName: TextView = xmlStudentIdCard.findViewById(R.id.last_name)

@@ -27,8 +27,9 @@
 
         <com.example.studentidcard.custom.view.StudentIdCardView
             android:id="@+id/custom_student_id_card"
-            android:layout_width="340dp"
-            android:layout_height="220dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFeatureSettings="tnum, onum"/>
         </FrameLayout>
 
 
