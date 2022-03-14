@@ -17,7 +17,7 @@ import androidx.annotation.Dimension
 import androidx.annotation.Px
 import androidx.core.content.ContextCompat
 import com.example.studentidcard.R
-import com.example.studentidnumber.ui.custom.model.Student
+import com.example.studentidcard.custom.model.Student
 
 
 class StudentIdCardView @JvmOverloads constructor(
@@ -108,6 +108,17 @@ class StudentIdCardView @JvmOverloads constructor(
     private val dateOfExpiry: TextView
     private val dateOfExpiryLabel: TextView
 
+
+    private lateinit var nameUniversityStr: String
+    private lateinit var idNumberStr: String
+    private lateinit var studentIdNumberStr: String
+    private lateinit var lastNameStr: String
+    private lateinit var firstNameStr: String
+    private lateinit var facultyStr: String
+    private lateinit var formOfTrainingStr: String
+    private lateinit var dateOfIssueStr: String
+    private lateinit var dateOfExpiryStr: String
+
     private var paint: Paint
     private var rect: RectF
 
@@ -119,15 +130,8 @@ class StudentIdCardView @JvmOverloads constructor(
         clipChildren = false
         clipToPadding = false
 
-//        inflate(context, R.layout.student_id_card, this)
-
         //Prepare colors
-        primaryColor = ContextCompat.getColor(context, R.color.primary_color)
-        imageBackgroundColor = ContextCompat.getColor(context, R.color.image_background_color)
-        headerTextColor = ContextCompat.getColor(context, R.color.header_text_color)
-        idTextColor = ContextCompat.getColor(context, R.color.id_text_color)
-        dataTextColor = ContextCompat.getColor(context, R.color.data_text_color)
-        labelTextColor = ContextCompat.getColor(context, R.color.label_text_color)
+
 
         //Prepare text size
         textSizeIdNumber = setDp(18)
@@ -150,11 +154,13 @@ class StudentIdCardView @JvmOverloads constructor(
         heightImageProfile = dpToPx(110)
         heightTextDataLabel = dpToPx(11)
 
+        initialize(context, attrs, defStyleAttr)
 
         nameUniversity = TextView(context)
         nameUniversity.textSize = textSizeNameUniversity
         nameUniversity.setTextColor(labelTextColor)
         nameUniversity.gravity = Gravity.CENTER_HORIZONTAL
+        nameUniversity.text = nameUniversityStr
         addView(nameUniversity)
 
         imageUniversity = ImageView(context)
@@ -190,6 +196,7 @@ class StudentIdCardView @JvmOverloads constructor(
         idNumber.setDirection(VerticalTextView.ORIENTATION_DOWN_TO_UP)
         idNumber.fontFeatureSettings = "tnum, onum"
         idNumber.letterSpacing = 0.15F
+        idNumber.text = idNumberStr
         addView(idNumber)
 
         studentIdNumberLabel = TextView(context)
@@ -198,6 +205,7 @@ class StudentIdCardView @JvmOverloads constructor(
         studentIdNumberLabel.setTypeface(null, Typeface.BOLD)
         studentIdNumberLabel.gravity = Gravity.CENTER
         studentIdNumberLabel.isAllCaps = true
+        studentIdNumberLabel.text = "Студенческий билет №"
         addView(studentIdNumberLabel)
 
         studentIdNumber = TextView(context)
@@ -205,78 +213,91 @@ class StudentIdCardView @JvmOverloads constructor(
         studentIdNumber.setTextColor(dataTextColor)
         studentIdNumber.setTypeface(null, Typeface.BOLD)
         studentIdNumber.gravity = Gravity.CENTER
+        studentIdNumber.text = studentIdNumberStr
         addView(studentIdNumber)
 
         lastNameLabel = TextView(context)
         lastNameLabel.textSize = textSizeLabelData
         lastNameLabel.setTextColor(labelTextColor)
         lastNameLabel.gravity = Gravity.TOP
+        lastNameLabel.text = "Фамилия"
         addView(lastNameLabel)
 
         lastName = TextView(context)
         lastName.textSize = textSizeData
         lastName.setTextColor(dataTextColor)
         lastName.setTypeface(null, Typeface.BOLD)
+        lastName.text = lastNameStr
         addView(lastName)
 
         firstNameLabel = TextView(context)
         firstNameLabel.textSize = textSizeLabelData
         firstNameLabel.setTextColor(labelTextColor)
         firstNameLabel.gravity = Gravity.TOP
+        firstNameLabel.text = "Имя и отчетсво"
         addView(firstNameLabel)
 
         firstName = TextView(context)
         firstName.textSize = textSizeData
         firstName.setTextColor(dataTextColor)
         firstName.setTypeface(null, Typeface.BOLD)
+        firstName.text = firstNameStr
         addView(firstName)
 
         facultyLabel = TextView(context)
         facultyLabel.textSize = textSizeLabelData
         facultyLabel.setTextColor(labelTextColor)
         facultyLabel.gravity = Gravity.TOP
+        facultyLabel.text = "Факультет"
         addView(facultyLabel)
 
         faculty = TextView(context)
         faculty.textSize = textSizeData
         faculty.setTextColor(dataTextColor)
         faculty.setTypeface(null, Typeface.BOLD)
+        faculty.text = facultyStr
         addView(faculty)
 
         formOfTrainingLabel = TextView(context)
         formOfTrainingLabel.textSize = textSizeLabelData
         formOfTrainingLabel.setTextColor(labelTextColor)
         formOfTrainingLabel.gravity = Gravity.TOP
+        formOfTrainingLabel.text = "Форма обучения"
         addView(formOfTrainingLabel)
 
         formOfTraining = TextView(context)
         formOfTraining.textSize = textSizeData
         formOfTraining.setTextColor(dataTextColor)
         formOfTraining.setTypeface(null, Typeface.BOLD)
+        formOfTraining.text = formOfTrainingStr
         addView(formOfTraining)
 
         dateOfIssueLabel = TextView(context)
         dateOfIssueLabel.textSize = textSizeLabelData
         dateOfIssueLabel.setTextColor(labelTextColor)
         dateOfIssueLabel.gravity = Gravity.TOP
+        dateOfIssueLabel.text = "Дата выдачи"
         addView(dateOfIssueLabel)
 
         dateOfIssue = TextView(context)
         dateOfIssue.textSize = textSizeData
         dateOfIssue.setTextColor(dataTextColor)
         dateOfIssue.setTypeface(null, Typeface.BOLD)
+        dateOfIssue.text = dateOfIssueStr
         addView(dateOfIssue)
 
         dateOfExpiryLabel = TextView(context)
         dateOfExpiryLabel.textSize = textSizeLabelData
         dateOfExpiryLabel.setTextColor(labelTextColor)
         dateOfExpiryLabel.gravity = Gravity.TOP
+        dateOfExpiryLabel.text = "Действителен до"
         addView(dateOfExpiryLabel)
 
         dateOfExpiry = TextView(context)
         dateOfExpiry.textSize = textSizeData
         dateOfExpiry.setTextColor(dataTextColor)
         dateOfExpiry.setTypeface(null, Typeface.BOLD)
+        dateOfExpiry.text = dateOfExpiryStr
         addView(dateOfExpiry)
 
         paint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -563,25 +584,81 @@ class StudentIdCardView @JvmOverloads constructor(
         return (value * displayMetrics.density) / (displayMetrics.scaledDensity)
     }
 
+    private fun initialize(context: Context, attrs: AttributeSet?, defStyle: Int) {
+        val styledAttributes =
+            context.obtainStyledAttributes(attrs, R.styleable.StudentIdCardView, defStyle, 0)
+        try {
+            primaryColor = styledAttributes.getColor(
+                R.styleable.StudentIdCardView_primary_color,
+                resources.getColor(R.color.primary_color)
+            )
+            headerTextColor = styledAttributes.getColor(
+                R.styleable.StudentIdCardView_header_text_color,
+                resources.getColor(R.color.header_text_color)
+            )
+            idTextColor = styledAttributes.getColor(
+                R.styleable.StudentIdCardView_id_text_color,
+                resources.getColor(R.color.id_text_color)
+            )
+            dataTextColor = styledAttributes.getColor(
+                R.styleable.StudentIdCardView_data_text_color,
+                resources.getColor(R.color.data_text_color)
+            )
+            labelTextColor = styledAttributes.getColor(
+                R.styleable.StudentIdCardView_label_text_color,
+                resources.getColor(R.color.label_text_color)
+            )
+            nameUniversityStr = styledAttributes.getString(
+                R.styleable.StudentIdCardView_name_university
+            ).toString()
+            idNumberStr = styledAttributes.getString(
+                R.styleable.StudentIdCardView_id_number
+            ).toString()
+            studentIdNumberStr = styledAttributes.getString(
+                R.styleable.StudentIdCardView_student_id_number
+            ).toString()
+            lastNameStr = styledAttributes.getString(
+                R.styleable.StudentIdCardView_last_name
+            ).toString()
+            firstNameStr = styledAttributes.getString(
+                R.styleable.StudentIdCardView_first_name
+            ).toString()
+
+            facultyStr = styledAttributes.getString(
+                R.styleable.StudentIdCardView_faculty
+            ).toString()
+            formOfTrainingStr = styledAttributes.getString(
+                R.styleable.StudentIdCardView_form_of_training
+            ).toString()
+            dateOfIssueStr = styledAttributes.getString(
+                R.styleable.StudentIdCardView_date_of_issue
+            ).toString()
+            dateOfExpiryStr = styledAttributes.getString(
+                R.styleable.StudentIdCardView_date_of_expiry
+            ).toString()
+
+
+
+        } finally {
+            // сообщаем Android о том, что данный объект можно переиспользовать
+            styledAttributes.recycle()
+        }
+    }
+
     fun bindStudentIdCard(student: Student) {
         nameUniversity.text = student.university.name
         imageUniversity.setImageResource(student.university.image)
         imageProfile.setImageResource(student.imageProfile)
-        studentIdNumberLabel.text = "Студенческий билет №"
         idNumber.text = student.idNumber
         studentIdNumber.text = student.studentIdNumber
-        lastNameLabel.text = "Фамилия"
         lastName.text = student.lastName
-        firstNameLabel.text = "Имя и отчетсво"
         firstName.text = student.firstName
-        facultyLabel.text = "Факультет"
         faculty.text = student.faculty
-        formOfTrainingLabel.text = "Форма обучения"
         formOfTraining.text = student.formOfTraining
-        dateOfIssueLabel.text = "Дата выдачи"
         dateOfIssue.text = student.dateOfIssue
-        dateOfExpiryLabel.text = "Действителен до"
         dateOfExpiry.text = student.dateOfExpiry
     }
+
+
 
 }
