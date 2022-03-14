@@ -3,13 +3,11 @@ package com.example.studentidcard.custom.view
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
-import android.os.Build
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -89,7 +87,7 @@ class StudentIdCardView @JvmOverloads constructor(
     private var textSizeData: Float = 0.0F
 
     @Px
-    private var cornerRadius: Int = 0
+    private var cornerRadius: Float = 0.0F
 
     private val nameUniversity: TextView
     private val imageUniversity: ImageView
@@ -117,10 +115,9 @@ class StudentIdCardView @JvmOverloads constructor(
     private lateinit var imageProfileBitmap: Bitmap
 
 
-
     init {
-//        clipChildren = false
-//        clipToPadding = false
+        clipChildren = false
+        clipToPadding = false
 
 //        inflate(context, R.layout.student_id_card, this)
 
@@ -145,7 +142,7 @@ class StudentIdCardView @JvmOverloads constructor(
         innerSmallPadding = dpToPx(5)
         innerLargePadding = dpToPx(15)
         innerVerticalPadding = dpToPx(10)
-        cornerRadius = dpToPx(16)
+        cornerRadius = dpToPx(16).toFloat()
 
         //Prepare image sizes
         imageUniversitySize = dpToPx(30)
@@ -165,8 +162,11 @@ class StudentIdCardView @JvmOverloads constructor(
         imageUniversity.addViewObserver {
             imageUniversityBitmap = resizeImage(
                 BitmapFactory.decodeResource(resources, R.drawable.image_university),
-                imageUniversitySize, imageUniversitySize)
+                imageUniversitySize, imageUniversitySize
+            )
             imageUniversity.setImageBitmap(imageUniversityBitmap)
+            imageUniversity.setBackgroundResource(R.drawable.shape_image_university)
+            imageUniversity.clipToOutline = true
         }
         addView(imageUniversity)
 
@@ -175,8 +175,11 @@ class StudentIdCardView @JvmOverloads constructor(
         imageProfile.addViewObserver {
             imageProfileBitmap = resizeImage(
                 BitmapFactory.decodeResource(resources, R.drawable.image_profile),
-                widthImageProfile, heightImageProfile)
+                widthImageProfile, heightImageProfile
+            )
             imageProfile.setImageBitmap(imageProfileBitmap)
+            imageProfile.setBackgroundResource(R.drawable.shape_image_profile)
+            imageProfile.clipToOutline = true
         }
         addView(imageProfile)
 
@@ -278,7 +281,6 @@ class StudentIdCardView @JvmOverloads constructor(
 
         paint = Paint(Paint.ANTI_ALIAS_FLAG)
         rect = RectF()
-
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -368,7 +370,6 @@ class StudentIdCardView @JvmOverloads constructor(
         val sRight = right - padding
         val sLeft = left - padding
 
-
         val leftBorder = sLeft + mainHorizontalPadding
         val rightBorder = sRight - mainHorizontalPadding
         val leftBorderDataLabel = leftBorder + widthImageProfile + innerLargePadding
@@ -385,7 +386,6 @@ class StudentIdCardView @JvmOverloads constructor(
             rightBorder,
             heightUsed + nameUniversity.measuredHeight
         )
-
         heightUsed += nameUniversity.measuredHeight + innerVerticalPadding
 
         imageUniversity.layout(
@@ -394,7 +394,6 @@ class StudentIdCardView @JvmOverloads constructor(
             leftBorder + imageUniversity.measuredWidth,
             heightUsed + imageUniversity.measuredHeight
         )
-
         widthUsed += imageUniversity.width + innerSmallPadding
 
         studentIdNumber.layout(
@@ -403,20 +402,23 @@ class StudentIdCardView @JvmOverloads constructor(
             rightBorder,
             heightUsed + imageUniversity.measuredHeight
         )
+
         studentIdNumberLabel.layout(
             widthUsed,
             heightUsed,
             rightBorder - studentIdNumber.measuredWidth,
             heightUsed + imageUniversity.measuredHeight
         )
+        heightUsed += imageUniversity.measuredHeight
+        val imageProfileCenterVert: Int = ((heightUsed + bottom) / 2)
+
         imageProfile.layout(
             leftBorder,
-            heightUsed + imageUniversity.measuredHeight,
+            imageProfileCenterVert - imageProfile.measuredHeight / 2,
             leftBorder + imageProfile.measuredWidth,
-            bottom
+            imageProfileCenterVert + imageProfile.measuredHeight / 2 + 1
         )
-
-        heightUsed += imageUniversity.measuredHeight + innerVerticalPadding
+        heightUsed += innerVerticalPadding
 
         lastNameLabel.layout(
             leftBorderDataLabel,
@@ -517,17 +519,19 @@ class StudentIdCardView @JvmOverloads constructor(
         )
     }
 
-
     override fun dispatchDraw(canvas: Canvas?) {
         val width: Float = canvas!!.width.toFloat()
         val height: Float = canvas.height.toFloat()
+
         paint.color = primaryColor
         rect.set(0.0F, 0.0F, width, height)
-        canvas.drawRoundRect(rect, cornerRadius.toFloat(), cornerRadius.toFloat(), paint)
+        canvas.save()
+        canvas.drawRoundRect(rect, cornerRadius, cornerRadius, paint)
+
         super.dispatchDraw(canvas)
     }
 
-    private fun resizeImage(image: Bitmap, resWidth: Int, resHeight: Int): Bitmap{
+    private fun resizeImage(image: Bitmap, resWidth: Int, resHeight: Int): Bitmap {
         val matrix = Matrix()
         val src = RectF(0.0F, 0.0F, image.width.toFloat(), image.height.toFloat())
         val dst = RectF(0.0F, 0.0F, resWidth.toFloat(), resHeight.toFloat())
@@ -537,14 +541,14 @@ class StudentIdCardView @JvmOverloads constructor(
 
     private fun View.addViewObserver(function: () -> Unit) {
         val view = this
-        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        view.viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 view.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 function.invoke()
             }
         })
     }
-
 
     private fun dpToPx(@Dimension(unit = Dimension.DP) dp: Int): Int {
         val resources: Resources = resources
@@ -562,11 +566,8 @@ class StudentIdCardView @JvmOverloads constructor(
     fun bindStudentIdCard(student: Student) {
         nameUniversity.text = student.university.name
         imageUniversity.setImageResource(student.university.image)
-//        imageUniversity.text = "IU"
         imageProfile.setImageResource(student.imageProfile)
-//        imageProfile.text = "ImPr"
         studentIdNumberLabel.text = "Студенческий билет №"
-//        idNumber.text = "10"
         idNumber.text = student.idNumber
         studentIdNumber.text = student.studentIdNumber
         lastNameLabel.text = "Фамилия"
@@ -582,7 +583,5 @@ class StudentIdCardView @JvmOverloads constructor(
         dateOfExpiryLabel.text = "Действителен до"
         dateOfExpiry.text = student.dateOfExpiry
     }
-
-
 
 }
