@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="vertical_text_view">
-            <attr name="direction">
+        <attr name="direction">
             <enum name="up_to_down" value="0" />
             <enum name="down_to_up" value="1" />
             <enum name="left_to_right" value="2" />
@@ -10,23 +10,19 @@
     </declare-styleable>
 
     <declare-styleable name="StudentIdCardView">
-        <attr name="primary_color" format="reference|color"/>
-        <attr name="header_text_color" format="color"/>
-        <attr name="id_text_color" format="color"/>
-        <attr name="data_text_color" format="color"/>
-        <attr name="label_text_color" format="color"/>
-
-        <attr name="image_university" format="reference"/>
-        <attr name="image_profile" format="reference"/>
-
-        <attr name="name_university" format="string"/>
-        <attr name="id_number" format="string"/>
-        <attr name="student_id_number" format="string"/>
-        <attr name="last_name" format="string"/>
-        <attr name="first_name" format="string"/>
-        <attr name="faculty" format="string"/>
-        <attr name="form_of_training" format="string"/>
-        <attr name="date_of_issue" format="string"/>
-        <attr name="date_of_expiry" format="string"/>
+        <attr name="primary_color" format="reference|color" />
+        <attr name="header_text_color" format="color" />
+        <attr name="id_text_color" format="color" />
+        <attr name="data_text_color" format="color" />
+        <attr name="label_text_color" format="color" />
+        <attr name="name_university" format="string" />
+        <attr name="id_number" format="string" />
+        <attr name="student_id_number" format="string" />
+        <attr name="last_name" format="string" />
+        <attr name="first_name" format="string" />
+        <attr name="faculty" format="string" />
+        <attr name="form_of_training" format="string" />
+        <attr name="date_of_issue" format="string" />
+        <attr name="date_of_expiry" format="string" />
     </declare-styleable>
 </resources>

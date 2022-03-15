@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val customStudentIdCard: StudentIdCardView = findViewById(R.id.custom_student_id_card)
-//        customStudentIdCard.bindStudentIdCard(testStudent)
+        customStudentIdCard.bindStudentIdCard(testStudent)
 
     }
 }

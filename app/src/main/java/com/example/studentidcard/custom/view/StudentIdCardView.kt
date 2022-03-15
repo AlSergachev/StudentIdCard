@@ -14,12 +14,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.Dimension
+import androidx.annotation.DrawableRes
 import androidx.annotation.Px
-import androidx.core.content.ContextCompat
 import com.example.studentidcard.R
 import com.example.studentidcard.custom.model.Student
 
 
+@Suppress("DEPRECATION")
 class StudentIdCardView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -108,7 +109,6 @@ class StudentIdCardView @JvmOverloads constructor(
     private val dateOfExpiry: TextView
     private val dateOfExpiryLabel: TextView
 
-
     private lateinit var nameUniversityStr: String
     private lateinit var idNumberStr: String
     private lateinit var studentIdNumberStr: String
@@ -125,13 +125,9 @@ class StudentIdCardView @JvmOverloads constructor(
     private lateinit var imageUniversityBitmap: Bitmap
     private lateinit var imageProfileBitmap: Bitmap
 
-
     init {
         clipChildren = false
         clipToPadding = false
-
-        //Prepare colors
-
 
         //Prepare text size
         textSizeIdNumber = setDp(18)
@@ -164,29 +160,15 @@ class StudentIdCardView @JvmOverloads constructor(
         addView(nameUniversity)
 
         imageUniversity = ImageView(context)
-        // todo: Установить заглушку в виде картинки с серым заполнением
-        imageUniversity.addViewObserver {
-            imageUniversityBitmap = resizeImage(
-                BitmapFactory.decodeResource(resources, R.drawable.image_university),
-                imageUniversitySize, imageUniversitySize
-            )
-            imageUniversity.setImageBitmap(imageUniversityBitmap)
-            imageUniversity.setBackgroundResource(R.drawable.shape_image_university)
-            imageUniversity.clipToOutline = true
-        }
+        setImageUniversity(R.drawable.image_university)
+        imageUniversity.setBackgroundResource(R.drawable.shape_image_university)
+        imageUniversity.clipToOutline = true
         addView(imageUniversity)
 
         imageProfile = ImageView(context)
-        // todo: Установить заглушку в виде картинки с серым заполнением
-        imageProfile.addViewObserver {
-            imageProfileBitmap = resizeImage(
-                BitmapFactory.decodeResource(resources, R.drawable.image_profile),
-                widthImageProfile, heightImageProfile
-            )
-            imageProfile.setImageBitmap(imageProfileBitmap)
-            imageProfile.setBackgroundResource(R.drawable.shape_image_profile)
-            imageProfile.clipToOutline = true
-        }
+        setImageProfile(R.drawable.image_profile)
+        imageProfile.setBackgroundResource(R.drawable.shape_image_profile)
+        imageProfile.clipToOutline = true
         addView(imageProfile)
 
         idNumber = VerticalTextView(context)
@@ -511,6 +493,7 @@ class StudentIdCardView @JvmOverloads constructor(
             rightBorderDateOfIssue,
             heightUsed + dateOfIssueLabel.measuredHeight
         )
+
         dateOfExpiryLabel.layout(
             rightBorderDateOfIssue + innerSmallPadding,
             heightUsed,
@@ -525,6 +508,7 @@ class StudentIdCardView @JvmOverloads constructor(
             rightBorderDateOfIssue,
             heightUsed + dateOfIssue.measuredHeight
         )
+
         dateOfExpiry.layout(
             rightBorderDateOfIssue + innerSmallPadding + innerSmallPadding,
             heightUsed,
@@ -552,7 +536,8 @@ class StudentIdCardView @JvmOverloads constructor(
         super.dispatchDraw(canvas)
     }
 
-    private fun resizeImage(image: Bitmap, resWidth: Int, resHeight: Int): Bitmap {
+    private fun resizeImage(idRes: Int, resWidth: Int, resHeight: Int): Bitmap {
+        val image: Bitmap = BitmapFactory.decodeResource(resources, idRes)
         val matrix = Matrix()
         val src = RectF(0.0F, 0.0F, image.width.toFloat(), image.height.toFloat())
         val dst = RectF(0.0F, 0.0F, resWidth.toFloat(), resHeight.toFloat())
@@ -637,18 +622,35 @@ class StudentIdCardView @JvmOverloads constructor(
                 R.styleable.StudentIdCardView_date_of_expiry
             ).toString()
 
-
-
         } finally {
-            // сообщаем Android о том, что данный объект можно переиспользовать
             styledAttributes.recycle()
+        }
+    }
+
+    private fun setImageUniversity(@DrawableRes resId: Int) {
+        imageUniversity.addViewObserver {
+            imageUniversityBitmap = resizeImage(
+                resId,
+                imageUniversitySize,
+                imageUniversitySize
+            )
+            imageUniversity.setImageBitmap(imageUniversityBitmap)
+        }
+    }
+
+    private fun setImageProfile(@DrawableRes resId: Int) {
+        imageProfile.addViewObserver {
+            imageProfileBitmap = resizeImage(
+                resId,
+                widthImageProfile,
+                heightImageProfile
+            )
+            imageProfile.setImageBitmap(imageProfileBitmap)
         }
     }
 
     fun bindStudentIdCard(student: Student) {
         nameUniversity.text = student.university.name
-        imageUniversity.setImageResource(student.university.image)
-        imageProfile.setImageResource(student.imageProfile)
         idNumber.text = student.idNumber
         studentIdNumber.text = student.studentIdNumber
         lastName.text = student.lastName
@@ -657,8 +659,8 @@ class StudentIdCardView @JvmOverloads constructor(
         formOfTraining.text = student.formOfTraining
         dateOfIssue.text = student.dateOfIssue
         dateOfExpiry.text = student.dateOfExpiry
+        setImageUniversity(student.university.image)
+        setImageProfile(student.imageProfile)
     }
-
-
 
 }
